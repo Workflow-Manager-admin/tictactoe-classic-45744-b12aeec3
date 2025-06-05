@@ -6,7 +6,7 @@ import React, { useState } from "react";
  * - Two player mode (same device)
  * - Game state tracking (board state, player turn)
  * - Win/Draw detection and announcement
- * - Uses theme: light, primary: #ffffff, secondary: #000000, accent: #2196f3
+ * - Full retro arcade/console-inspired theming.
  */
 function TicTacToeGame() {
   // State
@@ -14,10 +14,18 @@ function TicTacToeGame() {
   const [xIsNext, setXIsNext] = useState(true);
   const [status, setStatus] = useState({ winner: null, draw: false });
 
-  // Constants for theme/colors
-  const PRIMARY = "#ffffff";
-  const SECONDARY = "#000000";
-  const ACCENT = "#2196f3";
+  // Retro palette and styles
+  // Colors: mint green, cream, brick red, black, beige
+  const PRIMARY = "#f4ecd8";      // Cream/Beige
+  const SECONDARY = "#222122";    // Deep retro black
+  const ACCENT = "#48a14d";       // Mint green
+  const ACCENT2 = "#7c2f1d";      // Brick-red
+  const HIGHLIGHT = "#b5ffd5";
+  const SHADOW = "#2e2e38";       // Shadow/retro border
+
+  // Pixel/arcade font family as fallback
+  const RETRO_FONT = `"Press Start 2P", "Fira Mono", "Consolas", "Courier New", monospace`;
+  // For best effect: Press Start 2P or similar retro pixels, with good fallbacks if not available
 
   // Winning lines
   const lines = [
@@ -70,12 +78,18 @@ function TicTacToeGame() {
         className="ttt-square"
         onClick={() => handleSquareClick(idx)}
         style={{
-          color: board[idx] === "X" ? ACCENT : SECONDARY,
+          color: board[idx] === "X" ? ACCENT2 : ACCENT,
           background: PRIMARY,
-          borderColor: ACCENT,
+          borderColor: SHADOW,
           cursor: board[idx] || status.winner || status.draw ? "not-allowed" : "pointer",
+          // Apply retro drop shadow/3d effect via boxShadow
+          fontFamily: RETRO_FONT,
+          textShadow: board[idx]
+            ? `2px 2px 0px ${HIGHLIGHT}, 0px 2px 0px ${SHADOW}`
+            : `1px 1px 0px ${HIGHLIGHT}`,
         }}
-        aria-label={`TicTacToe square ${idx+1}${board[idx] ? ': '+board[idx] : ''}`}
+        aria-label={`TicTacToe square ${idx + 1}${board[idx] ? ': ' + board[idx] : ''}`}
+        tabIndex={status.winner || status.draw ? -1 : 0}
       >
         {board[idx]}
       </button>
@@ -86,26 +100,68 @@ function TicTacToeGame() {
   let header;
   if (status.winner) {
     header = (
-      <div className="ttt-status" style={{ color: ACCENT, fontWeight: 600 }}>
-        {`Player ${status.winner} wins!`}
+      <div
+        className="ttt-status"
+        style={{
+          color: ACCENT2,
+          fontWeight: 700,
+          fontFamily: RETRO_FONT,
+          letterSpacing: "2px",
+          background: "#fff9e6",
+          border: `3px solid ${ACCENT2}`,
+          boxShadow: `2px 2px 0px ${SHADOW}`,
+          padding: "6px 14px",
+          borderRadius: "6px",
+          marginBottom: 6,
+          marginTop: 2
+        }}
+      >
+        {`Player ${status.winner} WINS!`}
       </div>
     );
   } else if (status.draw) {
     header = (
-      <div className="ttt-status" style={{ color: ACCENT, fontWeight: 600 }}>
-        It's a draw!
+      <div
+        className="ttt-status"
+        style={{
+          color: ACCENT2,
+          fontWeight: 700,
+          fontFamily: RETRO_FONT,
+          background: "#fff9e6",
+          border: `3px solid ${ACCENT2}`,
+          boxShadow: `2.5px 2.5px 0px ${SHADOW}`,
+          padding: "6px 16px",
+          borderRadius: "6px",
+          letterSpacing: "1.5px",
+          marginBottom: 6,
+          marginTop: 2
+        }}
+      >
+        IT'S A DRAW!
       </div>
     );
   } else {
     header = (
-      <div className="ttt-status" style={{ color: SECONDARY, fontWeight: 500 }}>
-        Player {xIsNext ? "X" : "O"}'s turn
+      <div
+        className="ttt-status"
+        style={{
+          color: ACCENT,
+          fontWeight: 800,
+          fontFamily: RETRO_FONT,
+          letterSpacing: "2px",
+          textShadow: `1.5px 1.5px 0px ${HIGHLIGHT}, 0 1.5px 2px ${SHADOW}`,
+          padding: "3px 8px",
+          marginBottom: 6,
+        }}
+      >
+        PLAYER {xIsNext ? "X" : "O"}'S TURN
       </div>
     );
   }
 
   return (
     <div
+      className="ttt-retro-container"
       style={{
         minHeight: "60vh",
         display: "flex",
@@ -113,11 +169,15 @@ function TicTacToeGame() {
         alignItems: "center",
         justifyContent: "center",
         background: PRIMARY,
-        borderRadius: 16,
-        boxShadow: "0 4px 32px rgba(33,150,243,0.06)",
-        maxWidth: 360,
+        border: `6px double ${SHADOW}`,
+        boxShadow: `0 0 0 6px ${ACCENT}, 8px 8px 0px 0px ${SHADOW}`,
+        maxWidth: 340,
         margin: "48px auto",
-        padding: "24px 12px 28px 12px"
+        padding: "20px 10px 24px 10px",
+        borderRadius: "16px",
+        fontFamily: RETRO_FONT,
+        position: "relative",
+        outline: `4px solid ${ACCENT2}`,
       }}
     >
       {header}
@@ -125,10 +185,10 @@ function TicTacToeGame() {
         className="ttt-board"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 60px)",
-          gridTemplateRows: "repeat(3, 60px)",
-          gap: 6,
-          margin: "24px 0"
+          gridTemplateColumns: "repeat(3, 64px)",
+          gridTemplateRows: "repeat(3, 64px)",
+          gap: 8,
+          margin: "20px 0 10px 0",
         }}
       >
         {Array(9)
@@ -138,17 +198,22 @@ function TicTacToeGame() {
       <button
         className="ttt-reset"
         style={{
-          marginTop: 8,
-          padding: "10px 24px",
-          background: ACCENT,
+          marginTop: 10,
+          padding: "9px 24px 9px 24px",
+          background: ACCENT2,
           color: PRIMARY,
-          border: "none",
-          borderRadius: 6,
-          fontWeight: 600,
-          fontSize: "1rem",
+          border: `3px solid ${SECONDARY}`,
+          boxShadow: `2.5px 2.5px 0px ${SHADOW}`,
+          fontWeight: 900,
+          fontFamily: RETRO_FONT,
+          fontSize: "0.97rem",
+          textTransform: "uppercase",
           cursor: "pointer",
-          letterSpacing: "1px",
-          boxShadow: "0 1px 8px rgba(33,150,243,0.08)"
+          borderRadius: 8,
+          letterSpacing: "2px",
+          outline: `2px solid ${ACCENT}`,
+          transition: "background 0.18s, transform 0.1s",
+          textShadow: `1px 1px 0px ${HIGHLIGHT}, 0 1.5px 2px ${SHADOW}`,
         }}
         onClick={handleReset}
         data-testid="reset-btn"
@@ -157,26 +222,58 @@ function TicTacToeGame() {
       </button>
       <style>
         {`
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         .ttt-square {
-          width: 60px;
-          height: 60px;
-          font-size: 2rem;
-          font-weight: bold;
-          border: 2px solid ${ACCENT};
-          border-radius: 8px;
-          outline: none;
+          width: 64px;
+          height: 64px;
           background: ${PRIMARY};
-          transition: background 0.15s;
+          font-size: 2.25rem;
+          font-family: ${RETRO_FONT};
+          font-weight: 900;
+          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 4px solid ${SHADOW};
+          border-radius: 5px;
+          box-shadow: 3px 3px 0px ${ACCENT};
+          outline: 3px solid ${ACCENT2};
+          margin: 0;
+          padding: 0;
+          transition: background 0.08s, transform 0.08s;
+          user-select: none;
+          position: relative;
+        }
+        .ttt-square:active {
+          background: #e8dec2;
+          transform: scale(0.96);
         }
         .ttt-square:focus {
-          box-shadow: 0 0 0 2px ${ACCENT}66;
+          box-shadow: 0 0 0 3px ${ACCENT};
         }
+        .ttt-square:disabled {
+          opacity: 0.58;
+          cursor: not-allowed;
+        }
+
         .ttt-status {
-          font-size: 1.3rem;
-          margin-bottom: 8px;
+          font-size: 1.02rem;
+          line-height: 1.2;
+          text-align: center;
+        }
+
+        .ttt-reset:hover,
+        .ttt-reset:focus {
+          background: ${ACCENT};
+          color: ${PRIMARY};
+          outline: 4px double ${ACCENT2};
+          box-shadow: 4px 4px 0px ${HIGHLIGHT};
+          transform: translateY(-2px) scale(1.03);
         }
         .ttt-reset:active {
-          background: #1766b2;
+          background: #512116;
+          color: #fffbe1;
         }
         `}
       </style>

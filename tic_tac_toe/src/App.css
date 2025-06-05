@@ -1,108 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 :root {
-  --base-light: #00ffff;
-  --base-dark: #00008b;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+  --retro-cream: #f4ecd8;
+  --retro-black: #222122;
+  --retro-mint: #48a14d;
+  --retro-brick: #7c2f1d;
+  --retro-highlight: #b5ffd5;
+  --retro-shadow: #2e2e38;
 }
 
+/* Retro style body and app */
 body {
   margin: 0;
-  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  background-color: var(--base-dark);
-  color: var(--text-color);
+  font-family: "Press Start 2P", "Fira Mono", "Consolas", "Courier New", monospace;
+  background-color: var(--retro-black) !important;
+  color: var(--retro-black);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.12s;
 }
 
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--retro-black);
+  font-family: "Press Start 2P", "Fira Mono", "Consolas", "Courier New", monospace;
 }
 
+/* Navbar - thick retro border, brick, slight shadow */
 .navbar {
-  background-color: var(--base-dark);
-  padding: 16px;
+  background: var(--retro-brick);
+  padding: 14px 0 13px 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-color);
+  box-shadow: 4px 4px 0px var(--retro-shadow);
+  border-bottom: 4px solid var(--retro-shadow);
   position: fixed;
   top: 0;
   width: 100%;
-  box-sizing: border-box;
   z-index: 100;
+  min-height: 48px;
+  font-family: "Press Start 2P", "Consolas", monospace;
+  letter-spacing: 2.5px;
 }
 
 .logo {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.03rem;
+  font-family: "Press Start 2P", "Fira Mono", "Consolas", monospace;
+  font-weight: 900;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--retro-cream);
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px var(--retro-shadow);
+  letter-spacing: 1.5px;
 }
 
 .logo-symbol {
-  color: var(--base-light);
+  color: var(--retro-mint);
+  margin-right: 6px;
+  font-size: 1.1em;
+  text-shadow: 2px 2px 0px var(--retro-shadow);
+  font-family: "Press Start 2P";
 }
 
 .container {
-  max-width: 900px;
+  max-width: 950px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 18px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.hero {
-  padding-top: 120px;
-  padding-bottom: 64px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.subtitle {
-  color: var(--base-light);
-  font-weight: 500;
-  font-size: 1.1rem;
-}
-
+/* Retro Title Styles */
+.ttt-retro-title,
 .title {
-  font-size: 3.5rem;
-  font-weight: 600;
-  line-height: 1.2;
-  margin: 0;
+  font-size: 2.15rem;
+  font-family: "Press Start 2P", "Fira Mono", "Consolas", monospace !important;
+  font-weight: 900;
+  color: var(--retro-brick);
+  background: var(--retro-cream);
+  border: 4px double var(--retro-mint);
+  border-radius: 6px;
+  padding: 6px 14px 4px 14px;
+  letter-spacing: 2.5px;
+  margin-top: 100px;
+  margin-bottom: 24px;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px var(--retro-shadow);
+  text-shadow: 2px 2px 0 var(--retro-shadow), 0 0 1px var(--retro-mint);
+}
+
+/* Retro subtitle & desc (not visible for game, but for completeness) */
+.subtitle {
+  color: var(--retro-mint);
+  font-family: "Press Start 2P", "Fira Mono", monospace;
+  font-weight: 500;
+  font-size: 1rem;
+  text-shadow: 1px 1px 0 var(--retro-shadow);
+  letter-spacing: 1.5px;
+  margin-bottom: 18px;
 }
 
 .description {
-  font-size: 1.1rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin-bottom: 16px;
-}
-
-.btn {
-  background-color: var(--base-light);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
   font-size: 1rem;
-  font-weight: 500;
+  color: var(--retro-brick);
+  background: var(--retro-cream);
+  border-radius: 8px;
+  border: 2px solid var(--retro-mint);
+  box-shadow: 2px 2px 0 var(--retro-shadow);
+  padding: 8px 16px;
+}
+
+/* Arcade-inspired button styles */
+.btn, .btn-large, .ttt-reset {
+  background: var(--retro-brick);
+  color: var(--retro-cream);
+  border: 3px solid var(--retro-black);
+  font-family: "Press Start 2P", "Fira Mono", monospace;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  box-shadow: 2.5px 2.5px 0px var(--retro-shadow);
+  outline: 2px solid var(--retro-mint);
+  transition: background 0.16s, transform 0.1s;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  padding: 12px 28px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 0 var(--retro-highlight), 0 1px 2px var(--retro-shadow);
 }
 
-.btn:hover {
-  background-color: #7691ff;
+.btn:hover, .btn-large:hover, .ttt-reset:hover {
+  background: var(--retro-mint);
+  color: var(--retro-cream);
+  outline: 4px double var(--retro-brick);
+  box-shadow: 4px 4px 0px var(--retro-highlight);
+  transform: translateY(-2px) scale(1.03);
 }
 
-.btn-large {
-  padding: 12px 24px;
-  font-size: 1.1rem;
+.btn:active, .btn-large:active, .ttt-reset:active {
+  background: #512116;
+  color: #fffbe1;
+}
+
+/* Utility for retro board background (for possible board container) */
+.ttt-retro-container {
+  background: var(--retro-cream);
+  border: 6px double var(--retro-shadow);
+  box-shadow: 0 0 0 6px var(--retro-mint), 8px 8px 0px 0px var(--retro-shadow);
+  outline: 4px solid var(--retro-brick);
+  border-radius: 16px;
+  font-family: "Press Start 2P", "Fira Mono", monospace;
+}
+
+input, button {
+  font-family: inherit;
 }
